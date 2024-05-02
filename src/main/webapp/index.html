@@ -12,7 +12,7 @@
       font-family: Arial, sans-serif;
     }
     .container {
-      margin-top: 20px;
+      margin-top: 35px;
       background-color: #f9f9f9;
       padding: 20px;
       border-radius: 8px;
@@ -23,6 +23,23 @@
       border-bottom: 2px solid #007bff;
       padding-bottom: 10px;
       margin-bottom: 20px;
+      text-align: center; 
+      animation: colorChange 10s infinite alternate; 
+    }
+    
+    @keyframes colorChange {
+      0% {
+        color: #007bff;
+      }
+      33% {
+        color: #ff0000; 
+      }
+      66% {
+        color: #00ff00; 
+      }
+      100% {
+        color: #007bff; 
+      }
     }
     .live-stats p {
       font-size: 18px;
@@ -45,11 +62,13 @@
       font-weight: bold;
       margin-top: 10px;
     }
-    /* Edit by Asitha */
     .mt-3 {
       margin-top: 1rem !important;
     }
-  </style>
+    
+    /* Edit by Asitha */
+</style>
+
 
 </head>
 <body onload="fetchData()" style="padding: 20px;">
@@ -62,7 +81,7 @@
         <p>Value 3: <span id="value3"></span></p>
       </div>
       <div class="col-md-6">
-        <h2>Change Setting</h2>
+        <h3>Change Setting</h3>
         <input type="range" class="form-control-range" id="speed" name="speed" min="1" max="100" oninput="updateSpeedValue(this.value)">
         <div id="speedValue" class="mt-2"></div>
         <button type="button" class="btn btn-primary mt-3" onclick="sendDoc()">Send Data</button>
