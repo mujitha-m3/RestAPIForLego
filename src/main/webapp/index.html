@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Live Stats from Lego</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body onload="fetchData()" style="padding: 20px;">
+  <h2>Live Stats from Lego</h2>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <p>Speed: <span id="value1"></span></p>
+        <p>Is running: <span id="value2"></span></p>
+        <p>Value 3: <span id="value3"></span></p>
+      </div>
+      <div class="col-md-6">
+        <h2>Change Setting</h2>
+        <input type="range" class="form-control-range" id="speed" name="speed" min="1" max="100" oninput="updateSpeedValue(this.value)">
+        <div id="speedValue" class="mt-2"></div>
+        <button type="button" class="btn btn-primary mt-3" onclick="sendDoc()">Send Data</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    function fetchData() {
+      var xhttp = new XMLHttpRequest();
+
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var response = this.responseText;
+          console.log(response);
+          var values = response.split("#");
+          document.getElementById("value1").innerText = values[0];
+          document.getElementById("value2").innerText = values[1];
+          //document.getElementById("value3").innerText = values[2];
+        }
+      };
+
+      xhttp.open("GET",
+          "http://192.168.1.145:8080/rest/legoservice/retriveInfo",
+          true);
+      xhttp.send();
+    }
+
+    setInterval(fetchData, 1000); 
+
+    function updateSpeedValue(value) {
+      document.getElementById("speedValue").innerText = "Speed: " + value;
+    }
+
+    function sendDoc() {
+      var qhttp = new XMLHttpRequest();
+
+      qhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          console.log(this.responseText);
+          alert("Data saved successfully.");
+        }
+      };
+
+      var speed = document.getElementById("speed").value;
+
+      qhttp.open("GET",
+          "http://192.168.1.145:8080/rest/legoservice/updatespeed/"
+              + speed, true);
+      qhttp.send();
+    }
+  </script>
+</body>
+</html>
